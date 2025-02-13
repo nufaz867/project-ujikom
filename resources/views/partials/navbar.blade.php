@@ -9,7 +9,13 @@
             <!-- Tombol Refresh -->
             <button class="btn btn-outline-dark" type="submit">Refresh</button>
         </form>
-        
+
+    {{-- <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <button type="button" class="btn btn-danger">Left</button>
+        <button type="button" class="btn btn-warning">Middle</button>
+        <button type="button" class="btn btn-success">Right</button>
+    </div> --}}
+
         <!-- Nama aplikasi yang diambil dari konfigurasi Laravel -->
         <a class="navbar-brand fw-bolder mx-auto" href="#">
             {{ config('app.name') }}

@@ -4,6 +4,7 @@
 @section('content')
     {{-- Container utama yang menangani tampilan daftar tugas --}}
     <div id="content" class="overflow-y-hidden overflow-x-hidden">
+
         
         {{-- Jika tidak ada daftar tugas, tampilkan pesan dan tombol tambah --}}
         @if ($lists->count() == 0)
@@ -16,13 +17,14 @@
             </div>
         @endif
 
+
         {{-- Container untuk menampilkan daftar tugas dengan scroll horizontal --}}
         <div class="d-flex gap-3 px-3 flex-nowrap overflow-x-scroll overflow-y-hidden" style="height: 100vh;">
             <table class="table text-white">
 
             {{-- Looping daftar tugas --}}
-            @foreach ($lists as $list)
-                <div class="card flex-shrink-0 bg-transparent" style="width: 18rem; max-height: 100vh;">
+            @foreach ($lists as $list)  
+                <div class="card flex-shrink-0" style="width: 18rem; max-height: 100vh;">
                     
                     {{-- Header kartu berisi nama daftar dan tombol hapus --}}
                     <div class="card-header d-flex align-items-center justify-content-between bg-success">
@@ -37,7 +39,7 @@
                     </div>
 
                     {{-- Body kartu berisi daftar tugas --}}
-                    <div class="card-body d-flex bg-transparent flex-column gap-2 overflow-x-hidden">
+                    <div class="card-body d-flex bg-primary flex-column gap-2 overflow-x-hidden">
                         @foreach ($tasks as $task)
                             @if ($task->list_id == $list->id)
                                 <div class="card">

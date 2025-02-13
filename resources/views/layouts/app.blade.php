@@ -27,6 +27,7 @@
 
     <!-- Import file JavaScript custom -->
     <script src="{{ asset('js/script.js') }}"></script>  
+    
     <!-- Import Bootstrap JavaScript untuk fitur interaktif -->
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 

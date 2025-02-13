@@ -39,7 +39,7 @@
                     </div>
 
                     {{-- Body kartu berisi daftar tugas --}}
-                    <div class="card-body d-flex bg-primary flex-column gap-2 overflow-x-hidden">
+                    <div class="card-body d-flex bg-white  flex-column gap-2 overflow-x-hidden">
                         @foreach ($tasks as $task)
                             @if ($task->list_id == $list->id)
                                 <div class="card">

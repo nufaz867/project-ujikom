@@ -22,7 +22,7 @@ Route::get('/', [TaskController::class, 'index'])->name('home');
 Route::resource('lists', TaskListController::class);
 
 // Route untuk fitur pencarian tugas dan daftar tugas
-Route::get('search', [SearchController::class, 'search'])->name('search');
+Route::get('search', [SearchController::class, 'search'])->name('search'); 
 
 // Resource controller untuk mengelola tugas (tasks)
 // Sama seperti daftar tugas, ini mencakup operasi CRUD (Create, Read, Update, Delete)
@@ -33,3 +33,4 @@ Route::resource('tasks', TaskController::class);
 Route::patch('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 
 Route::patch('/tasks/{task}/change-list', [TaskController::class, 'changeList'])->name('tasks.changeList');
+

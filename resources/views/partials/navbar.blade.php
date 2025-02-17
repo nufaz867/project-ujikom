@@ -20,9 +20,17 @@
                 style="width: 10rem; height: fit-content;"
                 data-bs-toggle="modal" data-bs-target="#addListModal">
             <span class="d-flex align-items-center justify-content-center">
-                <i class="bi bi-plus fs-5"></i> Tambah
+                <i class="bi bi-plus fs-5"></i> Tambah 
             </span>
         </button>
+
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link">
+                <img class="rounded-circle me-lg-2" src="{{asset('images/RPL00762.JPG')}}" alt=""
+                    style="width: 40px; height: 40px; object-fit: cover" />
+                <span class="d-none d-lg-inline-flex">Nurul Pajriah</span>
+            </a>
+        </div>
     </div>
 </nav>
 

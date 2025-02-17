@@ -3,7 +3,7 @@
 @section('content')
     <div id="content" class="container pb-3">
         <!-- Tombol kembali ke halaman utama -->
-        <div class="d-flex align-items-center justify-content-center">
+        <div class="d-flex align-items-center justify-content-left">
             <a href="{{ route('home') }}" class="btn btn-sm fw-bold fs-4">
                 <i class="bi bi-arrow-left-short"></i>
                 Kembali

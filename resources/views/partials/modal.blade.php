@@ -75,7 +75,7 @@
                     {{-- Tombol submit untuk menambahkan tugas ke daftar --}}
                     <button type="submit" class="btn btn-primary">Tambah</button>
                 </div>
-            </form>yyy
+            </form>
         </div>
     </div>
 </div>

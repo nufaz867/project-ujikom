@@ -10,6 +10,8 @@ use App\Http\Controllers\SearchController;
 // Route untuk halaman utama (Home) yang akan menampilkan daftar tugas utama
 Route::get('/', [TaskController::class, 'index'])->name('home');
 
+Route::get('/profile', [TaskController::class, 'profile'])->name('profile');
+
 // Resource controller untuk mengelola daftar tugas (lists)
 // Secara otomatis mencakup route untuk:
 // - index (menampilkan semua daftar tugas)
@@ -33,4 +35,3 @@ Route::resource('tasks', TaskController::class);
 Route::patch('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 
 Route::patch('/tasks/{task}/change-list', [TaskController::class, 'changeList'])->name('tasks.changeList');
-

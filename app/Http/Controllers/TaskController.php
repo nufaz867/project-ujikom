@@ -1,108 +1,133 @@
 <?php
 
 namespace App\Http\Controllers;
-  
-// untuk memamnggil class yang di perlukan
+
 use App\Models\Task;
 use App\Models\TaskList;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    // funtion index untuk ngarahin file utamanya
-    public function index()  {
-        $data = [
-            'title' => 'Home',
-            'test'=> 'List',
-            'lists' => TaskList::all(),
-            'tasks' => Task::orderBy('created_at', 'desc')->get(),
-            'priorities' => Task::PRIORITIES
-        ];
+                //index () digunakan untuk menampilkan daftar data dari database.
+                public function index(Request $request)
+                {
+                    $query = $request->input('query');
+                    
+                    if ($query) {
+                        $tasks = Task::where('name', 'like', "%{$query}%")
+                            ->orWhere('description', 'like', "%{$query}%")
+                            ->latest()
+                            ->get();
+            
+                        $lists = TaskList::where('name', 'like', "%{$query}%")
+                            ->orWhereHas('tasks', function ($q) use ($query) {
+                                $q->where('name', 'like', "%{$query}%")
+                                    ->orWhere('description', 'like', "%{$query}%");
+                            })
+                            ->with(['tasks' => function ($q) use ($query) {
+                                $q->where('name', 'like', "%{$query}%")
+                                    ->orWhere('description', 'like', "%{$query}%");
+                            }])
+                            ->get();
+                    } else {
+                        $tasks = Task::latest()->get();
+                        $lists = TaskList::with('tasks')->get();
+                    }
+            
+                    $data = [
+                        'title' => 'Home', 
+                        'lists' => $lists,
+                        'tasks' => $tasks,
+                        'priorities' => Task::PRIORITIES,
+                    ];
+                    
+                    return view('pages.home', $data);
+                }
 
-    // mengarahkan ke volder view
-        return view('pages.home', $data);
-    }
-    // funtion store untuk nyimpan data ke databases (required adalah data yang di butuhkan)
-    public function store(Request $request)   {
-        $request->validate([
-            'name' => 'required|max:100',
-            'deskripsi' => 'max:255',
-            'priority' => 'required|in:low,medium,high',
-            'list_id' => 'required'
-        ]);
-    // task create untuk memasukan data/tabel ke database  
-        Task::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'priority' => $request->priority,
-            'list_id' => $request->list_id
-        ]);
+                public  function profile(){
+                    $data = [
+                        'title' => 'about',
+                    ];
 
-      // mengembalikan ke halaman sebelumnya
-        return redirect()->back();
-    }
+                    return view('pages.profile', $data);
+                }
 
-    // merubah status dari yang belum selesai jadi sudah selesai
-    public function complete($id) {
-        Task::findOrFail($id)->update([
-            'is_completed' => true
-        ]);
+            //store (Request) $request digunakan untuk menyimpan data baru ke dalam database
+public function store(Request $request) {
+    $request->validate([
+        'name' => 'required|max:100',
+        'description'=> 'required|max:100',
+        'priority' => 'required|in:low,medium,high',
+        'list_id' => 'required'
+    ]);
+            //Menambahkan Database
+    Task::create([
+        'name' => $request->name,
+        'description' => $request->description,
+        'priority' => $request->priority,
+        'list_id' => $request->list_id
+    ]);
 
-        return redirect()->back();
-    }
-
-    // untuk menghapus data yang ada di database 
-    public function destroy($id) {
-        Task::findOrFail($id)->delete();
-
-        return redirect()->route('home');
-    }
-
-    public function show($id) {
-        $task =Task::findOrfail($id);
-
-        $data = [
-            'title' => 'Task',
-            'lists' => TaskList::all(),
-            'task' => Task::findOrfail($id),
-        ];
-
-    // manggil tampilan
-    return view('pages.details', $data);  
-
-         
-    }
-
-    public function changeList(Request $request, Task $task)
-    {
-        $request->validate([
-            'list_id' => 'required|exists:task_lists,id',
-        ]);
-
-        Task::findOrFail($task->id)->update([
-            'list_id' => $request->list_id
-        ]);
-
-        return redirect()->back()->with('success', 'List berhasil diperbarui!');
-    }
-
-    public function update(Request $request, Task $task)
-    {
-        $request->validate([
-            'list_id' => 'required',
-            'name' => 'required|max:100',
-            'description' => 'max:255',
-            'priority' => 'required|in:low,medium,high'
-        ]);
-
-        Task::findOrFail($task->id)->update([
-            'list_id' => $request->list_id,
-            'name' => $request->name,
-            'description' => $request->description,
-            'priority' => $request->priority
-        ]);
-
-        return redirect()->back()->with('success', 'Task berhasil diperbarui!');
-    }
+            //Mengembalikan ke halaman sebelum'nya
+    return redirect()->back();
 }
-// Kode ini adalah struktur dasar untuk menampilkan halaman dalam Laravel
+                //complete($id) biasanya digunakan dalam Controller untuk menandai suatu item sebagai selesai atau memperbarui statusnya berdasarkan ID
+public function complete($id) {
+    Task::findOrFail($id)->update([
+        'is_completed' => true
+    ]);
+
+            //Mengembalikan ke halaman sebelum'nya
+    return redirect()->back();
+}
+        //digunakan untuk menghapus data berdasarkan ID-nya dari database
+public function destroy($id) {
+            //berfungsi untuk mencari data dalam tabel tasks berdasarkan ID yang diberikan dan kemudian menghapusnya
+    Task::findOrFail($id)->delete();
+
+            //Mengembalikan ke halaman sebelum'nya
+    return redirect()->route('home');
+}
+public function show($id)
+{
+    $data = [
+        'title' => 'Task',
+        'lists' => TaskList::all(),
+        'task' => Task::findOrFail($id),
+    ];
+
+    return view('pages.details', $data);
+}
+public function changeList(Request $request, Task $task)
+{
+    $request->validate([
+        'list_id' => 'required|exists:task_lists,id',
+    ]);
+
+    Task::findOrFail($task->id)->update([
+        'list_id' => $request->list_id
+    ]);
+
+    return redirect()->back()->with('success', 'List berhasil diperbarui!');
+}
+public function update(Request $request, Task $task)
+{
+    $request->validate([
+        'list_id' => 'required',
+        'name' => 'required|max:100',
+        'description' => 'max:255',
+        'priority' => 'required|in:low,medium,high'
+    ]);
+
+    Task::findOrFail($task->id)->update([
+        'list_id' => $request->list_id,
+        'name' => $request->name,
+        'description' => $request->description,
+        'priority' => $request->priority
+    ]);
+
+    return redirect()->back()->with('success', 'Task berhasil diperbarui!');
+}
+
+
+}

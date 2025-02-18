@@ -12,8 +12,9 @@
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
     <!-- Import Bootstrap Icons untuk ikon -->
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-icons/font/bootstrap-icons.min.css') }}">
-    
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body style="background-image: url('{{ asset('images/background.gif') }}'); background-size: cover;">
@@ -27,10 +28,11 @@
     @include('partials.modal')
 
     <!-- Import file JavaScript custom -->
-    <script src="{{ asset('js/script.js') }}"></script>  
-    
+    <script src="{{ asset('js/script.js') }}"></script>
+
     <!-- Import Bootstrap JavaScript untuk fitur interaktif -->
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 
 </body>
+
 </html>

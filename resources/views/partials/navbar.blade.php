@@ -2,14 +2,12 @@
 <nav class="navbar navbar-expand-lg bg-success navbar-dark">
     <div class="container d-flex justify-content-center align-items-center gap-3">
 
-        <!-- Form pencarian -->
-        <form class="d-flex" action="{{ route('search') }}" method="GET" role="search">
-            <!-- Input pencarian -->
-            <input id="search-input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <!-- Tombol Refresh -->
-            <button class="btn btn-outline-dark" type="submit">Refresh</button>
+        <form action="{{ route('home') }}" method="GET" class="d-flex gap-2">
+            <input type="text" class="form-control w-100" name="query" placeholder="Cari task/list" 
+            value="{{ request()->query('query') }}"> {{----digunakan untuk mencari task/list----}}
+            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-search"></i></button>
         </form>
-
+ 
         <!-- Nama aplikasi yang diambil dari konfigurasi Laravel -->
         <a class="navbar-brand fw-bolder mx-auto" href="#">
             {{ config('app.name') }}
@@ -24,11 +22,12 @@
         </button>
 
         <!-- Profil Pengguna dengan Biodata -->
-        <a href="{{ route('profile') }}" style="text-decoration: none;">
-            <h4>
-                <img class="rounded-circle me-lg-2" src="{{ asset('images/RPL00762.JPG') }}" alt="Profile"
-                    style="width: 40px; height: 40px; object-fit: cover"> Profile 
+        <a href="{{ route('profile') }}" class="text-decoration-none">
+            <h4 class="text-white d-flex align-items-center">
+                <img class="rounded-circle me-2" src="{{ asset('images/RPL00762.JPG') }}" alt="Profile"
+                    style="width: 40px; height: 40px; object-fit: cover;">
+                Profile
             </h4>
-        </a>        
+        </a>              
     </div>
 </nav>
